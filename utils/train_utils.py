@@ -59,6 +59,19 @@ class TencentLoss(object):
         r = torch.where(target == 1, pos_r, neg_r)
         return r
 
+class FocalLoss(object):
+    def __init__(self, alpha=0.5, gamma=2.0):
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+
+    def __call__(self, input, target):
+        input_prob = torch.sigmoid(input)
+        hard_easy_weight = (1 - input_prob) * target + input_prob * (1 - target)
+        posi_nega_weight = self.alpha * target + (1 - self.alpha) * (1 - target)
+        focal_weight = (posi_nega_weight * torch.pow(hard_easy_weight, self.gamma)).detach()
+        focal_loss = F.binary_cross_entropy_with_logits(input, target, weight=focal_weight)
+        return focal_loss
 
 def get_summary_writer(args):
     log_dir = os.path.join('logs', args.dataset, args.model)

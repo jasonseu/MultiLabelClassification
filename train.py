@@ -40,6 +40,8 @@ class Trainer(object):
             self.criterion = nn.BCEWithLogitsLoss()
         elif self.args.loss == 'tencentloss':
             self.criterion = TencentLoss(self.num_classes)
+        elif self.args.loss == 'focalloss':
+            self.criterion = FocalLoss()
         self.early_stopping = EarlyStopping(patience=5)
 
         self.voc12_mAP = VOC12mAP(self.num_classes)

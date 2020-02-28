@@ -22,8 +22,6 @@ class Tester(object):
 
         test_dataset = data_factory[args.dataset](self.args, 'test')
         self.test_loader = get_loader(test_dataset, args, 'test')
-        test_dataset = data_factory[args.dataset](self.args, 'val')
-        self.test_loader = get_loader(test_dataset, args, 'val')
         self.num_classes = test_dataset.num_classes
 
         self.model = model_factory[args.model](self.args, self.num_classes)
