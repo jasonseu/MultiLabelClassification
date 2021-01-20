@@ -1,3 +1,10 @@
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Created by: jasonseu
+# Created on: 2021-1-19
+# Email: zhuxuelin23@gmail.com
+#
+# Copyright © 2021 - CPSS Group
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import torch
 from torch import nn
 from torchvision import models
@@ -10,7 +17,7 @@ class ResNet101(nn.Module):
 
         print('loading pretrained model from imagenet')
         model_dict = self.network.state_dict()
-        resnet_pretrained = torch.load(args.pretrain_model)
+        resnet_pretrained = torch.load(args.initmodel)
         pretrain_dict = {k:v for k, v in resnet_pretrained.items() if not k.startswith('fc')}
         model_dict.update(pretrain_dict)
         self.network.load_state_dict(model_dict)

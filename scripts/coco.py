@@ -1,11 +1,20 @@
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Created by: jasonseu
+# Created on: 2021-1-19
+# Email: zhuxuelin23@gmail.com
+#
+# Copyright © 2021 - CPSS Group
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import os
 import json
-from random import shuffle
 from collections import defaultdict
 
 coco_dir = 'data/coco'
+save_dir = 'temp/coco'
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
-data = json.load(open(os.path.join(coco_dir, 'instances_train2014.json')))
+data = json.load(open(os.path.join(coco_dir, 'annotations/instances_train2014.json')))
 categories = []
 catId2catName = {}
 for line in data['categories']:
@@ -21,26 +30,20 @@ for line in data['annotations']:
     cat_name = catId2catName[cat_id]
     img_id = line['image_id']
     img_name = imgId2imgName[img_id]
-    if cat_name not in imgName2catName[img_name]:
-        imgName2catName[img_name].append(cat_name)
+    img_path = os.path.join(coco_dir, 'train2014', img_name)
+    if cat_name not in imgName2catName[img_path]:
+        imgName2catName[img_path].append(cat_name)
 
-imgName2catName = ['{}\t{}\n'.format(k, ','.join(v)) for k, v in imgName2catName.items()]
-shuffle(imgName2catName)
-train_data = imgName2catName[:len(imgName2catName)-5000]
-validation_data = imgName2catName[len(imgName2catName)-5000:]
-
+train_data = ['{}\t{}\n'.format(k, ','.join(v)) for k, v in imgName2catName.items()]
 print(f"total training data number: {len(train_data)}")
-print(f"total validation data number: {len(validation_data)}")
 
-with open(os.path.join(coco_dir, 'label.txt'), 'w') as fw:
+with open(os.path.join(save_dir, 'label.txt'), 'w') as fw:
     fw.writelines(['{}\n'.format(x) for x in categories])
-with open(os.path.join(coco_dir, 'coco_train.txt'), 'w') as fw:
+with open(os.path.join(save_dir, 'train.txt'), 'w') as fw:
     fw.writelines(train_data)
-with open(os.path.join(coco_dir, 'coco_val.txt'), 'w') as fw:
-    fw.writelines(validation_data)
 
 
-data = json.load(open(os.path.join(coco_dir, 'instances_val2014.json')))
+data = json.load(open(os.path.join(coco_dir, 'annotations/instances_val2014.json')))
 catId2catName = {}
 for line in data['categories']:
     catId2catName[line['id']] = line['name']
@@ -54,11 +57,12 @@ for line in data['annotations']:
     cat_name = catId2catName[cat_id]
     img_id = line['image_id']
     img_name = imgId2imgName[img_id]
-    if cat_name not in imgName2catName[img_name]:
-        imgName2catName[img_name].append(cat_name)
+    img_path = os.path.join(coco_dir, 'val2014', img_name)
+    if cat_name not in imgName2catName[img_path]:
+        imgName2catName[img_path].append(cat_name)
 
 imgName2catName = ['{}\t{}\n'.format(k, ','.join(v)) for k, v in imgName2catName.items()]
 print(f"total test data number: {len(imgName2catName)}")
 
-with open(os.path.join(coco_dir, 'coco_test.txt'), 'w') as fw:
+with open(os.path.join(save_dir, 'val.txt'), 'w') as fw:
     fw.writelines(imgName2catName)

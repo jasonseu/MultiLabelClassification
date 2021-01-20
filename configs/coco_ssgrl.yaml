@@ -1,0 +1,26 @@
+data: coco
+model: ssgrl
+num_classes: 80
+train_path: ./temp/coco/train.txt
+val_path: ./temp/coco/val.txt
+label_path: ./temp/coco/label.txt
+
+loss: BCElogitloss
+optimizer: Adam
+initmodel: ./initmodels/resnet101-5d3b4d8f.pth
+
+batch_size: 32
+scale_size: 640
+crop_size: 576
+
+num_workers: 8
+max_epoch: 200
+lr: 0.00001
+
+topk: 3
+threshold: 0.5
+
+log_dir: ./logs/coco_ssgrl
+ckpt_dir: ./checkpoints
+ckpt_latest_path: ./checkpoints/coco_ssgrl_latest_model.pth
+ckpt_best_path: ./checkpoints/coco_ssgrl_best_model.pth

@@ -1,0 +1,27 @@
+data: vg500
+model: resnet101
+num_classes: 500
+train_path: ./temp/vg500/train.txt
+val_path: ./temp/vg500/val.txt
+label_path: ./temp/vg500/label.txt
+
+loss: BCElogitloss
+optimizer: Adam
+initmodel: ./initmodels/resnet101-5d3b4d8f.pth
+
+batch_size: 32
+scale_size: 640
+crop_size: 576
+
+num_workers: 8
+max_epoch: 200
+lr: 0.00001
+
+topk: 3
+threshold: 0.5
+
+log_dir: ./logs/vg500_resnet101
+ckpt_dir: ./checkpoints
+ckpt_latest_path: ./checkpoints/vg500_resnet101_latest_model.pth
+ckpt_best_path: ./checkpoints/vg500_resnet101_best_model.pth
+

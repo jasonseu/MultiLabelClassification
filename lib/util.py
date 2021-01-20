@@ -1,10 +1,14 @@
-import os
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Created by: jasonseu
+# Created on: 2021-1-19
+# Email: zhuxuelin23@gmail.com
+#
+# Copyright © 2021 - CPSS Group
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import math
 
 import torch
-from torch import nn
 import torch.nn.functional as F
-from torch.utils.tensorboard import SummaryWriter
 
 
 class EarlyStopping(object):
@@ -72,24 +76,3 @@ class FocalLoss(object):
         focal_weight = (posi_nega_weight * torch.pow(hard_easy_weight, self.gamma)).detach()
         focal_loss = F.binary_cross_entropy_with_logits(input, target, weight=focal_weight)
         return focal_loss
-
-def get_summary_writer(args):
-    log_dir = os.path.join('logs', args.dataset, args.model)
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
-    writer = SummaryWriter(log_dir=log_dir)
-    return writer
-
-def save_checkpoint(save_dict, args, is_best=False):
-    model = 'best-model' if is_best else 'model'
-    prefix = f'{args.dataset}-{args.model}-{args.loss}-{args.optimizer}-{args.lr}'
-    save_path = f'tmp/{prefix}-{model}.pth.tar'
-    torch.save(save_dict, save_path)
-
-def load_checkpoint(args, is_best=False):
-    model = 'best-model' if is_best else 'model'
-    prefix = f'{args.dataset}-{args.model}-{args.loss}-{args.optimizer}-{args.lr}'
-    save_path = f'tmp/{prefix}-{model}.pth.tar'
-    print(f'loading model from checkpoint file {save_path}')
-    checkpoint = torch.load(save_path)
-    return checkpoint
