@@ -1,17 +1,26 @@
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Created by: jasonseu
+# Created on: 2021-3-9
+# Email: zhuxuelin23@gmail.com
+#
+# Copyright © 2021 - CPSS Group
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import os
 import argparse
 import numpy as np
 
-# generate adjacency matrix
-def preprocessing_for_ssgrl(dataset, fullname):
-    dir_name = f'data/{fullname}'
 
-    label_path = os.path.join(dir_name, f'{dataset}_label.txt')
-    train_path = os.path.join(dir_name, f'{dataset}_train.txt')
-    val_path = os.path.join(dir_name, f'{dataset}_val.txt')
-    graph_path = os.path.join(dir_name, f'{dataset}_graph.npy')
-    glove_path = '/nfs/share/CV_data/glove.840B.300d.txt'
-    embed_path = os.path.join(dir_name, f'{dataset}_embeddings.npy')
+glove_path = '/nfs/users/zhuxuelin/public/glove.840B.300d.txt'
+
+# generate adjacency matrix
+def preprocessing_for_ssgrl(data):
+    dir_name = os.path.join('temp', data)
+
+    label_path = os.path.join(dir_name, 'label.txt')
+    train_path = os.path.join(dir_name, 'train.txt')
+    val_path = os.path.join(dir_name, 'val.txt')
+    graph_path = os.path.join(dir_name, 'graph.npy')
+    embed_path = os.path.join(dir_name, 'embeddings.npy')
 
     categories = [line.strip() for line in open(label_path).readlines()]
     cate2id = {cat:i for i, cat in enumerate(categories)}
@@ -33,13 +42,18 @@ def preprocessing_for_ssgrl(dataset, fullname):
 
     np.save(graph_path, adjacency_matrix)
 
-
     # generate coco category embeddings
     with open(glove_path, 'r') as fr:
         embeddings = dict([line.split(' ', 1) for line in fr.readlines()])
 
     data_embeddings = []
     for cat in categories:
+        if cat == 'diningtable': # pretrained glove missing the label diningtable in voc2012
+            cat = 'dining table'
+        if cat == 'tvmonitor':
+            cat = 'tv monitor'
+        if cat == 'pottedplant':
+            cat = 'potted plant'
         # category (eg: traffic light) with two or more words should split and average in each word embedding
         temp = np.array([list(map(lambda x: float(x), embeddings[t].split())) for t in cat.split()])   
         if temp.shape[0] > 1:
@@ -51,14 +65,7 @@ def preprocessing_for_ssgrl(dataset, fullname):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--data', type=str, required=True, choices=['coco', 'voc2012', 'vg500'])
     args = parser.parse_args()
 
-    name_mapping = {
-        'vg500': 'visual_genome',
-        'coco': 'coco',
-        'oi': 'open_images',
-        'in': 'imagenet',
-        'tc': 'tencent'
-    }
-    preprocessing_for_ssgrl(args.dataset, name_mapping[args.dataset])
+    preprocessing_for_ssgrl(args.data)

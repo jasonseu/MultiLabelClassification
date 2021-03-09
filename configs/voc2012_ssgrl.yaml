@@ -1,4 +1,4 @@
-data: &data coco
+data: &data voc2012
 model: &model ssgrl
 num_classes: 80
 train_path: !join ['temp', *data, 'train.txt']
