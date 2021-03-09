@@ -17,8 +17,8 @@ class SSGRL(nn.Module):
         self.image_feature_dim = 2048
         self.output_dim = 2048
         self.word_feature_dim = 300
-        self.word_file = f'data/{self.args.dataset_fullname}/{self.args.dataset}_embeddings.npy'
-        self.graph_file = f'data/{self.args.dataset_fullname}/{self.args.dataset}_graph.npy'
+        self.word_file = self.args.embedding_path
+        self.graph_file = self.args.graph_path
         self.time_step = 3
         
         self._word_features = self._load_features()

@@ -13,6 +13,3 @@ infer.py
 
 scripts/ssgrl_analysis.ipynb
 scripts/.ipynb_checkpoints
-
-job.sh
-output*
