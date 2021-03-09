@@ -1,3 +1,10 @@
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Created by: jasonseu
+# Created on: 2021-3-9
+# Email: zhuxuelin23@gmail.com
+#
+# Copyright © 2021 - CPSS Group
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import abc
 import numpy as np
 
@@ -52,17 +59,16 @@ class VOC12mAP(object):
 
 
 class AverageLoss(object):
-    def __init__(self, batch_size):
+    def __init__(self):
         super(AverageLoss, self).__init__()
-        self._batch_size = batch_size
 
     def reset(self):
         self._sum = 0
         self._counter = 0
 
-    def update(self, loss):
-        self._sum += loss * self._batch_size
-        self._counter += self._batch_size
+    def update(self, loss, n=0):
+        self._sum += loss * n
+        self._counter += n
 
     def compute(self):
         return self._sum / self._counter

@@ -1,6 +1,6 @@
-data: &data coco
+data: &data voc2012
 model: &model resnet101
-num_classes: 80
+num_classes: 20
 train_path: !join ['temp', *data, 'train.txt']
 val_path: !join ['temp', *data, 'val.txt']
 label_path: !join ['temp', *data, 'label.txt']
@@ -22,8 +22,8 @@ threshold: 0.5
 
 name: &name !cat [*data, *model]
 log_dir: !join ['logs', *name]
-ckpt_dir: &ckpt_dir checkpoints
-ckpt_latest_path: !join [*ckpt_dir, *name, 'latest_model.pth']
-ckpt_best_path: !join [*ckpt_dir, *name, 'best_model.pth']
+ckpt_dir: &ckpt_dir !join ['checkpoints', *name]
+ckpt_latest_path: !join [*ckpt_dir, 'latest_model.pth']
+ckpt_best_path: !join [*ckpt_dir, 'best_model.pth']
 
 output_dir: !join ['tmp', *name]

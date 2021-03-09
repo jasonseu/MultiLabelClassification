@@ -36,12 +36,13 @@ def main(name):
                 x = labelid_list[i]
                 y = labelid_list[j]
                 coocurrence_matrix[x, y] += 1
+                coocurrence_matrix[y, x] += 1
     temp = coocurrence_matrix / coocurrence_matrix.sum()
     draw_heatmap(coocurrence_matrix, num_labels, name)
     np.save(os.path.join('temp', name, 'label_coocurrence.npy'), coocurrence_matrix)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, default='voc2012')
+    parser.add_argument('--data', type=str, default='coco')
     args = parser.parse_args()
     main(args.data)

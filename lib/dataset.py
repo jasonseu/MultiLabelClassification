@@ -14,9 +14,9 @@ class MLDataset(Dataset):
     def __init__(self, data_path, label_path, transform):
         super(MLDataset, self).__init__()
 
-        all_labels = [line.strip() for line in open(label_path)]
-        self.num_classes = len(all_labels)
-        self.label2id = {label:i for i, label in enumerate(all_labels)}
+        self.labels = [line.strip() for line in open(label_path)]
+        self.num_classes = len(self.labels)
+        self.label2id = {label:i for i, label in enumerate(self.labels)}
 
         self.data = []
         with open(data_path, 'r') as fr:

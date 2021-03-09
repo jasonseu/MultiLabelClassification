@@ -90,7 +90,7 @@ class Trainer(object):
         self.early_stopping = EarlyStopping(patience=5)
 
         self.voc12_mAP = VOC12mAP(args.num_classes)
-        self.average_loss = AverageLoss(args.batch_size)
+        self.average_loss = AverageLoss()
         self.average_topk_meter = TopkAverageMeter(args.num_classes, topk=args.topk)
         self.average_threshold_meter = ThresholdAverageMeter(args.num_classes, threshold=args.threshold)
 
@@ -169,7 +169,7 @@ class Trainer(object):
                 pred_y = pred_y.cpu().numpy()
                 loss = loss.cpu().numpy()
                 self.voc12_mAP.update(pred_y, y)
-                self.average_loss.update(loss)
+                self.average_loss.update(loss, x.size(0))
                 self.average_topk_meter.update(pred_y, y)
                 self.average_threshold_meter.update(pred_y, y)
 
@@ -192,10 +192,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default='configs/coco_resnet101.yaml')
     parser.add_argument('--resume', action='store_true', default=False)
-
     args = parser.parse_args()
-    with open(args.config, 'r') as fr:
-        cfg = yaml.load(fr)
+    cfg = load_cfg(args.config)
     cfg['resume'] = args.resume
     args = Namespace(**cfg)
     print(args)

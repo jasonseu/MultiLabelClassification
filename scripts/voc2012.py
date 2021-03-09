@@ -68,4 +68,4 @@ for img_id in val_imgIds:
     val_data.append('{}\t{}\n'.format(image_path, ','.join(list(labels))))
 
 with open(os.path.join(target_dir, 'val.txt'), 'w') as fw:
-    fw.writelines(train_data)
+    fw.writelines(val_data)
