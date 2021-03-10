@@ -10,7 +10,7 @@ import argparse
 import numpy as np
 
 
-glove_path = '/nfs/users/zhuxuelin/public/glove.840B.300d.txt'
+glove_path = 'tmp/glove.840B.300d.txt'
 
 # generate adjacency matrix
 def preprocessing_for_ssgrl(data):
