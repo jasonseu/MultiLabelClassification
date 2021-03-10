@@ -24,8 +24,8 @@ threshold: 0.5
 
 name: &name !cat [*data, *model]
 log_dir: !join ['logs', *name]
-ckpt_dir: &ckpt_dir checkpoints
-ckpt_latest_path: !join [*ckpt_dir, *name, 'latest_model.pth']
-ckpt_best_path: !join [*ckpt_dir, *name, 'best_model.pth']
+ckpt_dir: &ckpt_dir !join ['checkpoints', *name]
+ckpt_latest_path: !join [*ckpt_dir, 'latest_model.pth']
+ckpt_best_path: !join [*ckpt_dir, 'best_model.pth']
 
 output_dir: !join ['tmp', *name]
