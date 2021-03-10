@@ -63,17 +63,17 @@ class SSGRL(nn.Module):
     def _load_pretrain_model(self):
         model_dict = self.resnet_101.state_dict()
         print('loading pretrained model from imagenet')
-        resnet_pretrained = torch.load(self.args.pretrain_model)
+        resnet_pretrained = torch.load(self.args.initmodel)
         pretrain_dict = {k:v for k, v in resnet_pretrained.items() if not k.startswith('fc')}
         model_dict.update(pretrain_dict)
         self.resnet_101.load_state_dict(model_dict)
 
     def _load_features(self):
-        return Variable(torch.from_numpy(np.load(self.word_file).astype(np.float32))).cuda()
+        return torch.from_numpy(np.load(self.word_file).astype(np.float32)).cuda()
 
     def load_matrix(self):
         mat = np.load(self.graph_file)
         _in_matrix, _out_matrix = mat.astype(np.float32), mat.T.astype(np.float32)
-        _in_matrix = Variable(torch.from_numpy(_in_matrix), requires_grad=False).cuda()
-        _out_matrix = Variable(torch.from_numpy(_out_matrix), requires_grad=False).cuda()
+        _in_matrix = torch.from_numpy(_in_matrix).cuda()
+        _out_matrix = torch.from_numpy(_out_matrix).cuda()
         return _in_matrix, _out_matrix
