@@ -1,6 +1,6 @@
 data: &data voc2012
 model: &model resnet101
-num_classes: 500
+num_classes: 20
 train_path: !join ['temp', *data, 'train.txt']
 val_path: !join ['temp', *data, 'val.txt']
 label_path: !join ['temp', *data, 'label.txt']

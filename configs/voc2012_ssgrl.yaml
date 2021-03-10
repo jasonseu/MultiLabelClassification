@@ -1,6 +1,6 @@
 data: &data voc2012
 model: &model ssgrl
-num_classes: 80
+num_classes: 20
 train_path: !join ['temp', *data, 'train.txt']
 val_path: !join ['temp', *data, 'val.txt']
 label_path: !join ['temp', *data, 'label.txt']
@@ -11,7 +11,7 @@ loss: BCElogitloss
 optimizer: Adam
 initmodel: ./initmodels/resnet101-5d3b4d8f.pth
 
-batch_size: 32
+batch_size: 8
 scale_size: 640
 crop_size: 576
 
