@@ -22,7 +22,7 @@ lr: 0.00001
 topk: 3
 threshold: 0.5
 
-name: &name !join [*data, *model]
+name: &name !cat [*data, *model]
 log_dir: !join ['logs', *name]
 ckpt_dir: &ckpt_dir checkpoints
 ckpt_latest_path: !join [*ckpt_dir, *name, 'latest_model.pth']

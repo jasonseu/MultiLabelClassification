@@ -1,15 +1,15 @@
-data: vg500
-model: resnet101
+data: &data vg500
+model: &model resnet101
 num_classes: 500
-train_path: ./temp/vg500/train.txt
-val_path: ./temp/vg500/val.txt
-label_path: ./temp/vg500/label.txt
+train_path: !join ['temp', *data, 'train.txt']
+val_path: !join ['temp', *data, 'val.txt']
+label_path: !join ['temp', *data, 'label.txt']
 
 loss: BCElogitloss
 optimizer: Adam
 initmodel: ./initmodels/resnet101-5d3b4d8f.pth
 
-batch_size: 32
+batch_size: 8
 scale_size: 640
 crop_size: 576
 
@@ -20,8 +20,10 @@ lr: 0.00001
 topk: 3
 threshold: 0.5
 
-log_dir: ./logs/vg500_resnet101
-ckpt_dir: ./checkpoints
-ckpt_latest_path: ./checkpoints/vg500_resnet101_latest_model.pth
-ckpt_best_path: ./checkpoints/vg500_resnet101_best_model.pth
+name: &name !cat [*data, *model]
+log_dir: !join ['logs', *name]
+ckpt_dir: &ckpt_dir checkpoints
+ckpt_latest_path: !join [*ckpt_dir, *name, 'latest_model.pth']
+ckpt_best_path: !join [*ckpt_dir, *name, 'best_model.pth']
 
+output_dir: !join ['tmp', *name]
