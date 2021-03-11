@@ -141,8 +141,8 @@ class Trainer(object):
 
             if self.global_step % 400 == 0:
                 self.writer.add_scalar('Loss/train', loss, self.global_step)
-
-            print('TRAIN [epoch {}] loss: {:4f}'.format(epoch, loss))
+                print('TRAIN [epoch {}] loss: {:4f}'.format(epoch, loss))
+            
             self.global_step += 1
 
     def validation(self, epoch):
