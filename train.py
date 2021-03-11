@@ -6,10 +6,8 @@
 # Copyright © 2021 - CPSS Group
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import os
-import yaml
 import argparse
 from argparse import Namespace
-from tqdm import tqdm
 
 import torch
 from torch import nn
@@ -133,8 +131,6 @@ class Trainer(object):
         if self.args.model == 'ssgrl':
             self.model.resnet_101.eval()
             self.model.resnet_101.layer4.train()
-        desc = "[Epoch {}] TRAINING - loss: {:.4f}"
-        pbar = tqdm(total=len(self.train_loader), leave=False, desc=desc.format(epoch, 0))
         for _, batch in enumerate(self.train_loader):
             x, y = batch[0].cuda(), batch[1].cuda()
             pred_y = self.model(x)
@@ -146,10 +142,8 @@ class Trainer(object):
             if self.global_step % 400 == 0:
                 self.writer.add_scalar('Loss/train', loss, self.global_step)
 
+            print('TRAIN [epoch {}] loss: {:4f}'.format(epoch, loss))
             self.global_step += 1
-            pbar.desc = desc.format(epoch, loss)
-            pbar.update(1)
-        pbar.close()
 
     def validation(self, epoch):
         self.model.eval()
@@ -157,8 +151,6 @@ class Trainer(object):
         self.average_loss.reset()
         self.average_topk_meter.reset()
         self.average_threshold_meter.reset()
-        desc = "[Epoch {}] VALIDATION - loss: {:.4f}"
-        pbar = tqdm(total=len(self.val_loader), leave=False, desc=desc.format(epoch, 0))
         with torch.no_grad():
             for _, batch in enumerate(self.val_loader):
                 x, y = batch[0].cuda(), batch[1].cuda()
@@ -173,18 +165,14 @@ class Trainer(object):
                 self.average_topk_meter.update(pred_y, y)
                 self.average_threshold_meter.update(pred_y, y)
 
-                pbar.desc = desc.format(epoch, loss)
-                pbar.update(1)
-
-        ap_list, mAP = self.voc12_mAP.compute()
+        _, mAP = self.voc12_mAP.compute()
         mLoss = self.average_loss.compute()
         self.average_topk_meter.compute()
         self.average_threshold_meter.compute()
         self.writer.add_scalar('Loss/val', mLoss, self.global_step)
         self.writer.add_scalar('mAP/val', mAP, self.global_step)
 
-        tqdm.write(f"Validation Results - Epoch: {epoch} mAP: {mAP:.4f} loss: {mLoss:.4f}")
-        pbar.close()
+        print("Validation [epoch {}] mAP: {:.4f} loss: {:.4f}".format(epoch, mAP, mLoss))
         return mAP
 
 
