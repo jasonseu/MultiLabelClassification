@@ -41,7 +41,7 @@ for img_id in train_imgIds:
 
 with open(os.path.join(target_dir, 'train.txt'), 'w') as fw:
     fw.writelines(train_data)
-label_set = list(label_set)
+label_set = sorted(list(label_set))
 with open(os.path.join(target_dir, 'label.txt'), 'w') as fw:
     for line in label_set:
         fw.write(line+'\n')

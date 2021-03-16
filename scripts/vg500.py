@@ -29,7 +29,7 @@ counter.update(tags)
 print('total tag number: {}'.format(len(tags)))
 print('total unique tag number: {}'.format(len(counter)))
 
-tags500 = [k for k, v in counter.most_common()[:500]]
+tags500 = [k for k, _ in counter.most_common()[:500]]
 
 vg500_dict = []
 for line in data:
