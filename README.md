@@ -11,42 +11,40 @@ This is a multi label classification codebase in PyTorch. Currently, it supports
 Pretrained models are provided on [google drive](https://drive.google.com/open?id=10Ex1hEWCZw8Gop0DN-kvnPVlVfuzTbll). 
 
 ## Results
-Typically, The performances of pretrained multi label classification models are evaluated with mean average precision (mAP) and displayed as follows:
+Typically, The performances of pretrained multi label classification models are evaluated with mean average precision (mAP) and reported as follows:
 
-|   models  |  CoCo   | Visual Genome | Open Image V5 |
-|   -----   |  -----  | ------------- | ------------- |
-| ResNet101 | 0.801   |   0.250       |      -        |
-| SSGRL     | 0.836   |   0.294       |      -        |
+|   models  |  VOC2012  |  CoCo   |   VG500  |
+|   -----   |  -------  |  -----  | ---------|
+| ResNet101 |   0.901   |  0.802  |   0.293  |
+| SSGRL     |           |  0.837  |   0.334  |
 
 ## Training
 
 ```bash
-python train.py --dataset $dataset --model $model --loss $loss --optimizer $optimizer --batch_size $batch_size
+python train.py --config $cfg_file_path
 ```
 For example, with default optimizer(Adam) and loss(BCElogitloss), training resnet101 model on different dataset: 
 ```bash
-python train.py --dataset coco --model resnet101 --batch_size 32
-python train.py --dataset vg500 --model resnet101 --batch_size 32
+python train.py --config configs/coco_resnet101.yaml
+python train.py --dataset configs/voc2012_resnet101.yaml
 ```
 training ssgrl model on different dataset:
 ```bash
-python train.py --dataset coco --model ssgrl --batch_size 8
-python train.py --dataset vg500 --model ssgrl --batch_size 8
+python train.py --config configs/coco_ssgrl.yaml
+python train.py --dataset configs/voc2012_ssgrl.yaml
 ```
 
 To resume training, you can run `train.py` with argument `--resume`.
 
-## Testing
+## Evaluation
 
 ```bash
-python test.py --dataset $dataset --model $model --batch_size $batch_size
+python evaluate.py --config $cfg_file_path
 ```
 For example:
 ```bash
-python test.py --dataset vg500 --model resnet101 --batch_size 32
-python test.py --dataset coco --model resnet101 --batch_size 32
-python test.py --dataset vg500 --model ssgrl --batch_size 8
-python test.py --dataset coco --model ssgrl --batch_size 8
+python evaluate.py --config configs/vg500_resnet101.yaml
+python evaluate.py --config configs/vg500_ssgrl.yaml
 ```
 
 ## Inference
