@@ -26,12 +26,12 @@ python train.py --config $cfg_file_path
 For example, with default optimizer(Adam) and loss(BCElogitloss), training resnet101 model on different dataset: 
 ```bash
 python train.py --config configs/coco_resnet101.yaml
-python train.py --dataset configs/voc2012_resnet101.yaml
+python train.py --config configs/voc2012_resnet101.yaml
 ```
 training ssgrl model on different dataset:
 ```bash
 python train.py --config configs/coco_ssgrl.yaml
-python train.py --dataset configs/voc2012_ssgrl.yaml
+python train.py --config configs/voc2012_ssgrl.yaml
 ```
 
 To resume training, you can run `train.py` with argument `--resume`.
