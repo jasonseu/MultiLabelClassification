@@ -16,7 +16,7 @@ Typically, The performances of pretrained multi label classification models are 
 |   models  |  VOC2012  |  CoCo   |   VG500  |
 |   -----   |  -------  |  -----  | ---------|
 | ResNet101 |   0.901   |  0.802  |   0.293  |
-| SSGRL     |           |  0.837  |   0.334  |
+| SSGRL     |   0.921   |  0.837  |   0.334  |
 
 ## Training
 
