@@ -13,7 +13,7 @@ Pretrained models are provided on [google drive](https://drive.google.com/open?i
 ## Results
 Typically, The performances of pretrained multi label classification models are evaluated with mean average precision (mAP) and reported as follows:
 
-|   models  |  VOC2012  |  CoCo   |   VG500  |
+|   models  |  VOC2012  |  COCO   |   VG500  |
 |   -----   |  -------  |  -----  | ---------|
 | ResNet101 |   0.901   |  0.802  |   0.293  |
 | SSGRL     |   0.921   |  0.837  |   0.334  |
