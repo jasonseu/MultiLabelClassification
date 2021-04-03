@@ -1,6 +1,6 @@
 # MultiLabelClassification
 
-This is a multi label classification codebase in PyTorch. Currently, it supports ResNet101, SSGRL (a implement of paper "Learning Semantic-Specific Graph Representation for Multi-Label Image Recognition" based on official repository [HCPLab-SYSU/SSGRL](https://github.com/HCPLab-SYSU/SSGRL)) and training on CoCo, Visual Genome and Open Image.
+This is a multi label classification codebase in PyTorch. Currently, it supports ResNet101, SSGRL (a implement of paper "Learning Semantic-Specific Graph Representation for Multi-Label Image Recognition" based on official repository [HCPLab-SYSU/SSGRL](https://github.com/HCPLab-SYSU/SSGRL)) and training on Pascal Voc 2012, COCO and Visual Genome.
 
 ## Requirements
 - Python 3.6
