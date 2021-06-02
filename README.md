@@ -7,6 +7,15 @@ This is a multi label classification codebase in PyTorch. Currently, it supports
 - PyTorch 1.1
 - TorchVision 0.3
 
+## Data preparation
+Download needed datasets and symlink the paths to them as follows:
+```python
+mkdir data
+ln -s /path/to/mscoco data/coco
+ln -s /path/to/VisualGenome1.4 data/VisualGenome1.4
+ln -s /path/to/VOC2012 data/VOC2012
+```
+
 ## Pretrained models
 Pretrained models are provided on [google drive](https://drive.google.com/open?id=10Ex1hEWCZw8Gop0DN-kvnPVlVfuzTbll). 
 
