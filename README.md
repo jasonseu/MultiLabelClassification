@@ -9,7 +9,7 @@ This is a multi label classification codebase in PyTorch. Currently, it supports
 
 ## Data preparation
 Download needed datasets and symlink the paths to them as follows:
-```python
+```bash
 mkdir data
 ln -s /path/to/mscoco data/coco
 ln -s /path/to/VisualGenome1.4 data/VisualGenome1.4
